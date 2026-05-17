@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
-import { ArrowUp, ChevronDown, HelpCircle, Square, Zap } from 'lucide-react';
+import { ArrowUp, ChevronDown, Square, Zap } from 'lucide-react';
 import { RemoteModelSelector, type ModelOption } from '../../components/RemoteModelSelector';
 import { getModelIcon } from '../../components/cards/ModelCard';
 import { PendingChipsRow } from '../../components/PendingChipsRow';
@@ -502,8 +502,12 @@ function ParasitePicker({ locale, available, current, onChange, disabled }: Para
     return () => document.removeEventListener('mousedown', onDoc);
   }, [open]);
 
+  // Use the themed-tooltip explanation when the picker is in normal operation,
+  // and the "nothing detected" line when there's literally nothing to pick.
+  const hintText = noneInstalled ? noneLabel : tooltip;
+
   return (
-    <div ref={wrapperRef} className="relative">
+    <div ref={wrapperRef} className="relative flex items-center gap-1">
       <button
         onClick={() => !disabled && !noneInstalled && setOpen((o) => !o)}
         disabled={disabled || noneInstalled}
@@ -512,12 +516,31 @@ function ParasitePicker({ locale, available, current, onChange, disabled }: Para
             ? 'bg-cyber-accent/15 border-cyber-accent/50 text-cyber-accent'
             : 'bg-cyber-surface border-cyber-border text-cyber-text-secondary hover:bg-cyber-elevated hover:text-cyber-text'
         } disabled:opacity-40 disabled:cursor-not-allowed`}
-        title={noneInstalled ? noneLabel : tooltip}
       >
         <Zap size={12} className={current ? 'fill-current' : ''} />
         <span className="font-medium">{activeLabel || label}</span>
-        <HelpCircle size={11} className="opacity-60" />
       </button>
+      {/* Themed help glyph — same shape as AppManager's relay-mode "?". */}
+      <span className="group relative inline-flex items-center">
+        <span
+          aria-label={hintText}
+          className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-cyber-elevated font-sans text-xs font-medium leading-none text-cyber-text-secondary cursor-help select-none hover:bg-cyber-accent/15 hover:text-cyber-accent transition-colors"
+        >
+          ?
+        </span>
+        <span
+          role="tooltip"
+          className="pointer-events-none absolute right-0 bottom-full z-[100] mb-1.5 w-72 rounded border border-cyber-accent/40 bg-cyber-elevated px-3 py-2 text-[11px] leading-relaxed text-cyber-text shadow-cyber-card backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          {/* Caret — rotated square poking down out of the tooltip's bottom edge,
+              aligned roughly above the ? glyph at the right side. */}
+          <span
+            aria-hidden="true"
+            className="absolute -bottom-1 right-2 h-2 w-2 rotate-45 border-b border-r border-cyber-accent/40 bg-cyber-elevated"
+          />
+          {hintText}
+        </span>
+      </span>
       {open && (
         <div className="absolute right-0 bottom-full mb-1 min-w-[180px] bg-cyber-elevated border border-cyber-border rounded-lg shadow-lg z-20 py-1">
           {current && (
@@ -548,9 +571,6 @@ function ParasitePicker({ locale, available, current, onChange, disabled }: Para
               {PARASITE_LABELS[id] || id}
             </button>
           ))}
-          <div className="px-3 py-1.5 text-[10px] text-cyber-text-muted border-t border-cyber-border/60 mt-1 leading-snug">
-            {tooltip}
-          </div>
         </div>
       )}
     </div>
