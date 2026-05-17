@@ -154,10 +154,14 @@ export const RemoteModelSelector: React.FC<RemoteModelSelectorProps> = ({
             </div>
           )}
           {extras && extras.length > 0 && models.length > 0 && (
-            // Solid divider — user feedback: "just need a clear divider"
-            // (no opacity dimming, full border colour) so the boundary
-            // between models and the parasite engine is unambiguous.
-            <div className="my-1 border-t border-cyber-border" />
+            // Groove divider — 1px dark line (cyber-bg, darker than the
+            // dropdown's cyber-elevated background) with a 1px highlight
+            // beneath it from box-shadow. The two stacked pixels read as
+            // an inset/recessed channel in both light and dark themes,
+            // unlike a single border-t which is too subtle to see.
+            // Horizontal margin keeps it floating inside the dropdown
+            // rather than running edge-to-edge.
+            <div className="mx-3 my-1.5 h-px bg-cyber-bg shadow-[0_1px_0_0_rgba(255,255,255,0.08)]" />
           )}
           {extras?.map((extra) => {
             const isCurrent = extra.id === currentModelId;
