@@ -154,14 +154,13 @@ export const RemoteModelSelector: React.FC<RemoteModelSelectorProps> = ({
             </div>
           )}
           {extras && extras.length > 0 && models.length > 0 && (
-            // Groove divider — 1px dark line (cyber-bg, darker than the
-            // dropdown's cyber-elevated background) with a 1px highlight
-            // beneath it from box-shadow. The two stacked pixels read as
-            // an inset/recessed channel in both light and dark themes,
-            // unlike a single border-t which is too subtle to see.
-            // Horizontal margin keeps it floating inside the dropdown
-            // rather than running edge-to-edge.
-            <div className="mx-3 my-1.5 h-px bg-cyber-bg shadow-[0_1px_0_0_rgba(255,255,255,0.08)]" />
+            // Theme-aware divider — cyber-text-muted is a CSS variable
+            // that flips polarity between themes (light grey on dark
+            // backgrounds, dark grey on light backgrounds), so 40%
+            // opacity reads as a consistent subtle line in both modes.
+            // The dark-only groove (dark line + white highlight) we had
+            // before only worked in dark mode and looked off in light.
+            <div className="mx-3 my-1.5 h-px bg-cyber-text-muted/40" />
           )}
           {extras?.map((extra) => {
             const isCurrent = extra.id === currentModelId;
