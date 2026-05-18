@@ -53,6 +53,11 @@ const DownloadItemRow: React.FC<{
   const isPaused = item.status === 'paused';
   // Engine install: no real file size, just show progress
   const hasSize = item.total > 0;
+  // llama-server download path doesn't honor DOWNLOAD_PAUSED at the
+  // Rust layer (no Range-resume on engine binaries), so clicking pause
+  // would set a flag nobody reads. Hide the pause button for engine
+  // downloads — cancel still works.
+  const isEngineDownload = item.fileName === 'llama-server';
 
   return (
     <div className="flex items-center gap-3 h-full min-w-0">
@@ -148,8 +153,8 @@ const DownloadItemRow: React.FC<{
       {/* Action buttons — not shown during engine install (pip cannot be paused) */}
       {!isInstalling && (
         <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
-          {/* Downloading: Pause button */}
-          {isActive && onPause && (
+          {/* Downloading: Pause button (hidden for engine downloads — see isEngineDownload) */}
+          {isActive && onPause && !isEngineDownload && (
             <button
               onClick={onPause}
               className="text-cyber-text-secondary/50 hover:text-yellow-400 transition-colors"
