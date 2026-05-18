@@ -456,18 +456,49 @@ export const LocalServerMain: React.FC = () => {
       );
     }
 
-    // Update available: show UPGRADE ENGINE button
+    // Update available: split the long bar into a compact upgrade button
+    // and the same engine-info display used in the ready state. Lets the
+    // user keep working with the installed engine without having the
+    // upgrade CTA hijack the start-stop workflow. No version string in
+    // the UI on purpose — the version-fetch backends (GitHub Releases for
+    // llama.cpp, PyPI for vllm/sglang) have heterogeneous formats and
+    // failure modes; binding a UI promise to those is tech debt.
     if (engineStatus === 'update-available') {
       return (
         <div className="flex gap-1.5 w-full">
           <button
             onClick={handleDownloadEngine}
-            className="flex-1 py-3 font-bold text-base tracking-[0.2em] font-mono transition-all flex items-center justify-center gap-2 rounded-lg
-                            bg-cyber-accent/15 text-cyber-accent border border-cyber-accent/40 hover:bg-cyber-accent/25 hover:border-cyber-accent/60"
+            className="py-2 px-4 font-mono text-xs flex items-center gap-1.5 rounded-lg
+                            bg-cyber-accent/15 text-cyber-accent border border-cyber-accent/40 hover:bg-cyber-accent/25 hover:border-cyber-accent/60 transition-colors flex-shrink-0"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-3.5 h-3.5" />
             {t('server.upgradeEngine') || 'UPGRADE ENGINE'}
           </button>
+          <div className="flex-1 py-2 px-4 font-mono text-xs flex items-center gap-0 rounded-lg bg-cyber-border/60 overflow-hidden min-w-0">
+            <HardDrive className="w-3.5 h-3.5 flex-shrink-0 text-cyber-text mr-2" />
+            {engineBinaryNames.length > 0 ? (
+              <div className="flex items-center gap-0 min-w-0 overflow-hidden">
+                {engineBinaryNames.map((name, i) => (
+                  <span key={name} className="flex items-center gap-0 min-w-0">
+                    {i > 0 && (
+                      <span className="flex-shrink-0 mx-2 text-cyber-text opacity-70">+</span>
+                    )}
+                    <span
+                      className={`truncate tracking-wide ${i === 0 ? 'text-cyber-text' : 'text-cyber-text-secondary'}`}
+                      style={{ minWidth: 0 }}
+                    >
+                      {name}
+                    </span>
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <span className="text-cyber-text-secondary truncate">
+                {runtime}
+                {engineVersion ? ` v${engineVersion}` : ''}
+              </span>
+            )}
+          </div>
           {folderBtn}
           {startStopBtn}
         </div>
