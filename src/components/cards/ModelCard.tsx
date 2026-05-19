@@ -286,19 +286,25 @@ export const ModelCard = React.memo(
 
           {/* Protocol row — no label (OpenAI / Anthropic are universally
               recognized names, so a "Protocol:" prefix would be redundant
-              and would cost an i18n key per locale). Tested = /60 (parity
-              with the value-text in the rows above), untested = /30. */}
+              and would cost an i18n key per locale). [Brackets] are kept
+              from the pre-unification design as a visual anchor for the
+              label-less row — they signal "these are tagged tokens, not
+              free text" so the user's eye doesn't lose the scan rhythm
+              dropping from 延迟: into a naked phrase. All other styling
+              (uppercase / tracking-widest / pulse / drop-shadow) stays
+              off — tested = /60 (parity with the rows above), untested
+              = /30. */}
           <div className="flex items-center gap-1 truncate">
             <span className="truncate text-cyber-text/60">
               {protocols.includes('openai') && (
                 <span className={openaiTested ? 'text-cyber-text/60' : 'text-cyber-text/30'}>
-                  OpenAI
+                  [OpenAI]
                 </span>
               )}
               {protocols.includes('openai') && protocols.includes('anthropic') && ' '}
               {protocols.includes('anthropic') && (
                 <span className={anthropicTested ? 'text-cyber-text/60' : 'text-cyber-text/30'}>
-                  Anthropic
+                  [Anthropic]
                 </span>
               )}
               {protocols.length === 0 && '-'}
