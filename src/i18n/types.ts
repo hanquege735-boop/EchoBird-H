@@ -75,6 +75,7 @@ export type TKey =
   | 'myProjects.copyTemplate'
   | 'myProjects.templateCopied'
   | 'myProjects.bottomHint'
+  | 'hint.myProjects'
   | 'settings.closeWindowBehavior'
   | 'settings.closeDirectly'
   | 'settings.closeToTray'

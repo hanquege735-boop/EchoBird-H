@@ -4,6 +4,7 @@ import { ToolCard, getModelIcon } from '../../components';
 import { useI18n } from '../../hooks/useI18n';
 import type { ModelConfig, LocalTool } from '../../api/types';
 import { useAppManager, toolCategories } from './context';
+import { useNavigationStore } from '../../stores/navigationStore';
 import {
   getOfficialEndpoint,
   officialModelSentinel,
@@ -552,10 +553,12 @@ export const AppManagerBottom: React.FC = () => {
     <div className="flex-shrink-0 flex flex-col mt-2">
       <div className="mx-2 border-t border-cyber-border"></div>
       <div className="flex items-center justify-end gap-8 px-6 py-5">
-        {/* Developer hint — larger and more prominent to prevent accidental app closure */}
-        <div className="flex-1 text-[15px] font-medium text-cyber-accent">
-          {t('hint.devInvite')}
-        </div>
+        {/* Page-aware hint copy: AppManager warns against closing EchoBird mid-
+            session (Codex / Claude config swap stays applied while we run);
+            "我的AI项目" instead tells the user to crib from Reversi/Translator
+            models.json when Vibe-Coding their own AI project. */}
+        <PageAwareHint />
+        {/* Launch button */}
         {/* Launch button */}
         <button
           onClick={handleLaunch}
@@ -654,6 +657,16 @@ export const AppManagerBottom: React.FC = () => {
       </div>
     </div>
   );
+};
+
+// Orange instructional copy shown at the bottom-left of the launch row.
+// Branches on activePage so the same AppManagerBottom can serve both
+// "应用管理" and "我的AI项目" without duplicating the rest of the row.
+const PageAwareHint: React.FC = () => {
+  const { t } = useI18n();
+  const activePage = useNavigationStore((s) => s.activePage);
+  const key = activePage === 'myProjects' ? 'hint.myProjects' : 'hint.devInvite';
+  return <div className="flex-1 text-[15px] font-medium text-cyber-accent">{t(key)}</div>;
 };
 
 // ===== Apply Error Modal =====

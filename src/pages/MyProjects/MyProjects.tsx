@@ -15,6 +15,8 @@ import {
   type MyProjectInput,
 } from '../../stores/myProjectsStore';
 import { useToolsStore } from '../../stores/toolsStore';
+import { useAppManager } from '../AppManager/context';
+import { ToolCard } from '../../components';
 import type { LocalTool } from '../../api/types';
 
 // IDs of the bundled tools we want to surface on this page as built-in
@@ -37,6 +39,11 @@ export const MyProjectsMain: React.FC = () => {
   const projects = useMyProjectsStore((s) => s.projects);
   const initStore = useMyProjectsStore((s) => s.init);
   const detectedTools = useToolsStore((s) => s.detectedTools);
+  // Reuse AppManager's selection state so the right-side ModelListSection
+  // and bottom launch button (both already rendered for myProjects via
+  // App.tsx) Just Work for the sample tools. Clicking a sample card =
+  // identical UX to App Manager.
+  const { selectedTool, setSelectedTool } = useAppManager();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -67,8 +74,16 @@ export const MyProjectsMain: React.FC = () => {
       {/* Cards grid - Scrolling */}
       <div className="flex-1 overflow-y-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {/* Built-in samples (Reversi, Translator) — use the same ToolCard
+              that AppManager renders, so selection, hover, icon, and model
+              line all behave identically to the App Manager page. */}
           {sampleTools.map((tool) => (
-            <BuiltinSampleCard key={tool.id} tool={tool} />
+            <ToolCard
+              key={tool.id}
+              {...tool}
+              selected={selectedTool === tool.id}
+              onClick={() => setSelectedTool(tool.id)}
+            />
           ))}
           {projects.map((p) => (
             <ProjectCard key={p.id} project={p} onEdit={openEdit} />
@@ -87,62 +102,7 @@ export const MyProjectsMain: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom hint (orange instructional text — matches mockup) */}
-      <div className="flex-shrink-0 pt-4 text-[13px] text-cyber-accent leading-relaxed">
-        {t('myProjects.bottomHint')}
-      </div>
-
       {dialogOpen && <AddProjectDialog editingId={editingId} onClose={closeDialog} />}
-    </div>
-  );
-};
-
-// ── Built-in sample card ──
-// Same visual as ProjectCard, but data comes from the scanned tool list
-// (reversi / translator) and there are no delete/edit actions — these are
-// reference samples, not user-owned entries.
-
-const BuiltinSampleCard: React.FC<{ tool: LocalTool }> = ({ tool }) => {
-  const { locale } = useI18n();
-  const displayName =
-    (tool.names &&
-      locale !== 'en' &&
-      (tool.names[locale] ||
-        tool.names[locale.split('-')[0]] ||
-        Object.entries(tool.names).find(([k]) => k.startsWith(locale.split('-')[0]))?.[1])) ||
-    tool.name;
-
-  return (
-    <div className="relative p-5 border border-cyber-border rounded-card bg-cyber-surface flex flex-col min-h-[160px]">
-      <div className="absolute top-4 right-4 w-10 h-10 rounded-lg bg-cyber-elevated flex items-center justify-center overflow-hidden">
-        <img
-          src={`./icons/tools/${tool.id}.svg`}
-          alt=""
-          className="w-7 h-7 object-contain opacity-80"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = 'none';
-          }}
-        />
-      </div>
-
-      <h3 className="text-[15px] font-semibold text-cyber-text mb-4 pr-12 truncate">
-        {displayName}
-      </h3>
-
-      <div className="space-y-1.5 text-[12px] text-cyber-text-secondary flex-1">
-        <div className="truncate">
-          <span className="text-cyber-text-muted">模型: </span>
-          <span>{tool.activeModel || '—'}</span>
-        </div>
-        <div className="truncate">
-          <span className="text-cyber-text-muted">应用: </span>
-          <span>{tool.detectedPath || '—'}</span>
-        </div>
-        <div className="truncate">
-          <span className="text-cyber-text-muted">配置: </span>
-          <span>{tool.configPath || '—'}</span>
-        </div>
-      </div>
     </div>
   );
 };

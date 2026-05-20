@@ -184,6 +184,8 @@ const ja: Partial<Translations> = {
   'key.destroyed': '環境の変化を検出。API キーが自動消去されました。再度入力してください',
   'hint.devInvite':
     'Codex Desktop / Codex CLI / Claude Desktop のモデルを切り替えた後は、EchoBird を起動したままにしてください。',
+  'hint.myProjects':
+    'Reversi / AI翻訳 の models.json を参考に、自分の AI ゲーム / AI アプリを Vibe Coding できます。ワンクリックでモデル切り替えにも対応。',
   'mother.selectModel': 'モデルを選択',
   'mother.hintInstall': '{agent} をインストール',
   'mother.enterMessage': 'メッセージを入力...',

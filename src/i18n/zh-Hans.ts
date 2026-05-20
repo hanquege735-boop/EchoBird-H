@@ -177,6 +177,8 @@ const zhHans: Partial<Translations> = {
   'key.destroyed': '检测到环境已改变，API Key 已自毁，请重新输入',
   'hint.devInvite':
     '切换 Codex 桌面端 / Codex CLI / Claude 桌面端 的模型后，请保持 EchoBird 运行。',
+  'hint.myProjects':
+    '参考 黑白棋 和 AI翻译 的模型配置 models.json,让你 Vibe Coding 自己的 AI 项目（AI 游戏 / AI 应用),也可以一键切换模型。',
   'mother.selectModel': '选择模型',
   'mother.hintInstall': '安装 {agent}',
   'mother.enterMessage': '输入消息...',

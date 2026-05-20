@@ -313,7 +313,7 @@ function App() {
                                   <ModelNexusPanel />
                                 </div>
 
-                                <div className={page(is('apps'))}>
+                                <div className={page(is('apps') || is('myProjects'))}>
                                   <AppManagerPanel />
                                 </div>
                                 <div className={page(is('localLlm'))}>
@@ -327,7 +327,7 @@ function App() {
                             </div>
 
                             {/* Bottom bars — always mounted, CSS hidden */}
-                            <div className={page(is('apps'))}>
+                            <div className={page(is('apps') || is('myProjects'))}>
                               <AppManagerBottom />
                             </div>
                             <div className={page(is('localLlm'))}>

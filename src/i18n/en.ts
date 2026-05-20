@@ -206,6 +206,8 @@ const en: Translations = {
   'key.destroyed': 'Environment change detected — API Key has self-destructed, please re-enter',
   'hint.devInvite':
     'After switching the Codex Desktop / Codex CLI / Claude Desktop model, keep EchoBird running.',
+  'hint.myProjects':
+    "Use Reversi's and AI Translator's models.json as a reference — Vibe Code your own AI game or app, then swap models in one click.",
   // Mother Agent
   'mother.selectModel': 'Select model',
   'mother.hintInstall': 'Install {agent}',
