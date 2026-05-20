@@ -16,14 +16,6 @@ import {
 } from '../../stores/myProjectsStore';
 import { useToolsStore } from '../../stores/toolsStore';
 import { useAppManager } from '../AppManager/context';
-import { ToolCard } from '../../components';
-import type { LocalTool } from '../../api/types';
-
-// IDs of the bundled tools we want to surface on this page as built-in
-// sample projects — they ARE the reference Vibe-Coding examples and giving
-// them dedicated cards here saves users from having to jump back to App
-// Manager when authoring their own project.
-const BUILTIN_SAMPLE_IDS = ['reversi', 'translator'] as const;
 
 // Placeholder examples shown inside the file-picker fields when nothing's
 // been chosen yet. Kept in English path style across all locales — the
@@ -32,17 +24,32 @@ const PLACEHOLDER_ICON = 'e.g: ~/YourProject/xxx.ico/svg/png';
 const PLACEHOLDER_LAUNCHER = 'e.g: ~/YourProject/xxx.exe';
 const PLACEHOLDER_MODELS = 'e.g: ~/YourProject/models.json';
 
+// Convert any stored icon path into something the WebView can render.
+// Three flavours of `iconPath` reach this component:
+//   - Seeded built-ins: "./icons/tools/<id>.svg" — Vite-served, use as-is
+//   - User-picked via plugin-dialog: absolute filesystem path — needs file://
+//   - Empty string: caller falls back to a placeholder glyph
+const iconSrcFor = (p: string): string => {
+  if (!p) return '';
+  if (p.startsWith('./') || p.startsWith('/') || /^https?:/.test(p) || p.startsWith('data:')) {
+    return p;
+  }
+  return `file://${p.replace(/\\/g, '/')}`;
+};
+
 // ── Card grid + dialog wiring ──
 
 export const MyProjectsMain: React.FC = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const projects = useMyProjectsStore((s) => s.projects);
   const initStore = useMyProjectsStore((s) => s.init);
+  const seedBuiltins = useMyProjectsStore((s) => s.seedBuiltins);
   const detectedTools = useToolsStore((s) => s.detectedTools);
-  // Reuse AppManager's selection state so the right-side ModelListSection
-  // and bottom launch button (both already rendered for myProjects via
-  // App.tsx) Just Work for the sample tools. Clicking a sample card =
-  // identical UX to App Manager.
+  // Reuse AppManager's selection state. Seeded entries set their
+  // linkedToolId so the right panel + launch button drive the existing
+  // tool flow (just like App Manager). Pure user projects don't have a
+  // linkedToolId yet — selecting them currently leaves the panel empty
+  // until Phase D wires their dedicated launch path.
   const { selectedTool, setSelectedTool } = useAppManager();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -52,12 +59,13 @@ export const MyProjectsMain: React.FC = () => {
     initStore();
   }, [initStore]);
 
-  // Pluck the two bundled sample tools out of the scanned tool list so we
-  // can render them as ready-made reference projects above the user's own
-  // entries. Preserves the BUILTIN_SAMPLE_IDS order (reversi first).
-  const sampleTools = BUILTIN_SAMPLE_IDS.map((id) => detectedTools.find((t) => t.id === id)).filter(
-    (t): t is LocalTool => t !== undefined
-  );
+  // Seed Reversi + AI Translator into the user's project list the first time
+  // the page mounts with tool data available. Idempotent — the store tracks
+  // a flag so we only inject once per device, after which they're real
+  // entries the user can edit or delete.
+  useEffect(() => {
+    if (detectedTools.length > 0) seedBuiltins(detectedTools, locale);
+  }, [detectedTools, locale, seedBuiltins]);
 
   const openAdd = () => {
     setEditingId(null);
@@ -69,25 +77,33 @@ export const MyProjectsMain: React.FC = () => {
   };
   const closeDialog = () => setDialogOpen(false);
 
+  const handleSelect = (project: MyProject) => {
+    if (project.linkedToolId) {
+      // Seeded built-in — hand selection off to AppManager so the right panel
+      // shows that tool's model list and the launch button runs the existing
+      // bundled-tool flow.
+      setSelectedTool(project.linkedToolId);
+    } else {
+      // User project — clear AppManager selection for now; Phase D will
+      // synthesise a virtual tool from the project's models.json so the
+      // right panel can show its models and the launch button can spawn
+      // the user-provided exe.
+      setSelectedTool(null);
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
-      {/* Cards grid - Scrolling */}
       <div className="flex-1 overflow-y-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {/* Built-in samples (Reversi, Translator) — use the same ToolCard
-              that AppManager renders, so selection, hover, icon, and model
-              line all behave identically to the App Manager page. */}
-          {sampleTools.map((tool) => (
-            <ToolCard
-              key={tool.id}
-              {...tool}
-              selected={selectedTool === tool.id}
-              onClick={() => setSelectedTool(tool.id)}
-              hideVersion
-            />
-          ))}
           {projects.map((p) => (
-            <ProjectCard key={p.id} project={p} onEdit={openEdit} />
+            <ProjectCard
+              key={p.id}
+              project={p}
+              selected={!!p.linkedToolId && selectedTool === p.linkedToolId}
+              onSelect={() => handleSelect(p)}
+              onEdit={openEdit}
+            />
           ))}
           {/* "+" empty card — always last */}
           <button
@@ -112,23 +128,40 @@ export const MyProjectsMain: React.FC = () => {
 
 const ProjectCard: React.FC<{
   project: MyProject;
+  selected: boolean;
+  onSelect: () => void;
   onEdit: (id: string) => void;
-}> = ({ project, onEdit }) => {
+}> = ({ project, selected, onSelect, onEdit }) => {
   const { t } = useI18n();
+  const detectedTools = useToolsStore((s) => s.detectedTools);
   const deleteProject = useMyProjectsStore((s) => s.deleteProject);
 
+  // For seeded built-ins, mirror the active model id off the live tool scan
+  // so the card stays in sync when the user swaps the model from the right
+  // panel — same source App Manager reads from. User-only projects get a
+  // dash until Phase D adds models.json model-id read-back.
+  const activeModel = project.linkedToolId
+    ? detectedTools.find((t) => t.id === project.linkedToolId)?.activeModel
+    : undefined;
+
+  const iconSrc = iconSrcFor(project.iconPath);
+
   return (
-    <div className="relative p-5 border border-cyber-border rounded-card bg-cyber-surface flex flex-col min-h-[160px] group hover:border-cyber-text/30 transition-colors">
-      {/* Icon top-right — falls back to FolderHeart if user didn't pick one */}
+    <div
+      onClick={onSelect}
+      className={`relative p-5 border rounded-card bg-cyber-surface flex flex-col min-h-[160px] group transition-colors cursor-pointer ${
+        selected ? 'border-cyber-accent' : 'border-cyber-border hover:border-cyber-text/30'
+      }`}
+    >
+      {/* Icon top-right — accepts Vite-served URLs (./icons/...) for seeded
+          built-ins and absolute file:// paths for user-picked icons. Falls
+          back to FolderHeart on missing file or load error. */}
       <div className="absolute top-4 right-4 w-10 h-10 rounded-lg bg-cyber-elevated flex items-center justify-center overflow-hidden">
-        {project.iconPath ? (
-          // convertFileSrc would be cleaner once we add asset protocol; for now
-          // a plain file:// URL works for Tauri WebView2 when AssetProtocol is on.
-          // Falls back to placeholder on error.
+        {iconSrc ? (
           <img
-            src={`file://${project.iconPath.replace(/\\/g, '/')}`}
+            src={iconSrc}
             alt=""
-            className="w-full h-full object-contain"
+            className="w-7 h-7 object-contain"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = 'none';
             }}
@@ -145,30 +178,38 @@ const ProjectCard: React.FC<{
       <div className="space-y-1.5 text-[12px] text-cyber-text-secondary flex-1">
         <div className="truncate">
           <span className="text-cyber-text-muted">模型: </span>
-          <span>—</span>
+          <span>{activeModel || '—'}</span>
         </div>
-        <div className="truncate" title={project.launcherPath}>
+        <div className="truncate">
           <span className="text-cyber-text-muted">应用: </span>
           <span>{project.launcherPath || '—'}</span>
         </div>
-        <div className="truncate" title={project.modelsJsonPath}>
+        <div className="truncate">
           <span className="text-cyber-text-muted">配置: </span>
           <span>{project.modelsJsonPath || '—'}</span>
         </div>
       </div>
 
-      {/* Actions row — replaces the "版本: 1.0" line in the original
-          AppManager-style card. Visible on hover for tidiness. */}
+      {/* Actions row — replaces the "版本: 1.0" line that App Manager renders.
+          User-developed projects don't have a meaningful version concept, so
+          we use the same slot for the delete/edit affordance. Buttons stop
+          propagation so they don't also trigger card selection. */}
       <div className="flex items-center justify-end gap-2 mt-3 opacity-70 group-hover:opacity-100 transition-opacity">
         <button
-          onClick={() => onEdit(project.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit(project.id);
+          }}
           className="text-[12px] text-cyber-text-secondary hover:text-cyber-text px-2 py-0.5 rounded hover:bg-cyber-elevated transition-colors flex items-center gap-1"
         >
           <Pencil size={12} />
           {t('btn.edit')}
         </button>
         <button
-          onClick={() => deleteProject(project.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteProject(project.id);
+          }}
           className="text-[12px] text-cyber-text-secondary hover:text-cyber-error px-2 py-0.5 rounded hover:bg-cyber-elevated transition-colors flex items-center gap-1"
         >
           <Trash2 size={12} />

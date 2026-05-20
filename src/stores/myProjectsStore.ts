@@ -1,27 +1,47 @@
-// MyProjects store — user-authored AI projects added via the "我的AI项目" page.
+// MyProjects store — user-authored AI projects added via the "我的AI项目"
+// page. The page treats this as a config table: each entry records a
+// project's name, icon, launcher, and models.json. Reversi + AI Translator
+// arrive as seeded entries on first run so the user sees something useful
+// before they author anything; after that the seed is indistinguishable
+// from a custom project (delete it, edit its paths, etc.).
 //
-// Persistence is localStorage-only for now; this keeps the experimental feature
-// from widening the Rust AppSettings struct in echobird_core. When the feature
-// stabilises and we need cross-device sync or richer launch metadata, we can
-// migrate to ~/.echobird/projects.json via a Tauri command without changing
-// the public API of this store.
+// Persistence is localStorage-only for now; this keeps the experimental
+// feature from widening the Rust AppSettings struct in echobird_core. When
+// the feature stabilises and we need cross-device sync or richer launch
+// metadata, we can migrate to ~/.echobird/projects.json via a Tauri command
+// without changing the public API of this store.
 import { create } from 'zustand';
+import type { LocalTool } from '../api/types';
 
 export interface MyProject {
   id: string;
   name: string;
-  /** Absolute path to icon (.ico / .svg / .png). Empty string = use default placeholder. */
+  /** Path to icon. Vite-served relative paths (./icons/...) and absolute
+   *  filesystem paths (with or without file://) are both accepted; an empty
+   *  string falls back to a default placeholder. */
   iconPath: string;
-  /** Absolute path to launcher executable. */
+  /** Path to launcher entry. For seeded built-ins this is the tool's bundled
+   *  directory (e.g. .../tools/reversi); for user projects it's whatever
+   *  executable they pick. */
   launcherPath: string;
   /** Absolute path to the project's models.json (model-field read/write mapping). */
   modelsJsonPath: string;
   createdAt: number;
+  /** Set when this entry was seeded from a bundled tool (reversi / translator).
+   *  Selecting the card on the page will use this id to drive AppManager's
+   *  right-side model panel + launch button — the user gets the App Manager
+   *  flow for free on seeded entries. */
+  linkedToolId?: string;
 }
 
 export type MyProjectInput = Omit<MyProject, 'id' | 'createdAt'>;
 
 const LS_KEY = 'echobird_my_projects';
+const SEED_FLAG_KEY = 'echobird_my_projects_seeded';
+
+// Bundled tools we drop into the project list on the user's first visit.
+// Order here is the order rendered on the page.
+const SEED_TOOL_IDS = ['reversi', 'translator'] as const;
 
 const loadFromStorage = (): MyProject[] => {
   try {
@@ -64,12 +84,29 @@ const makeId = (name: string): string => {
   return slug ? `${slug}-${rnd}` : `project-${rnd}`;
 };
 
+// Pick the best display name for a tool given the current UI locale.
+const pickToolName = (tool: LocalTool, locale: string): string => {
+  if (locale === 'en' || !tool.names) return tool.name;
+  const direct = tool.names[locale];
+  if (direct) return direct;
+  const base = locale.split('-')[0];
+  if (tool.names[base]) return tool.names[base];
+  const fuzzy = Object.entries(tool.names).find(([k]) => k.startsWith(base));
+  return fuzzy?.[1] || tool.name;
+};
+
 interface MyProjectsState {
   projects: MyProject[];
   addProject: (input: MyProjectInput) => MyProject;
   updateProject: (id: string, patch: Partial<MyProjectInput>) => void;
   deleteProject: (id: string) => void;
   init: () => void;
+  /** Idempotent — only runs once per device (tracks a localStorage flag).
+   *  Pass the live tool-scan results so we can grab the real bundled paths
+   *  (.../tools/reversi/, ~/.echobird/reversi.json) at seed time. Returns
+   *  silently without seeding if the scan hasn't surfaced the built-ins yet
+   *  (page will call again on the next render once detectedTools updates). */
+  seedBuiltins: (tools: LocalTool[], locale: string) => void;
 }
 
 export const useMyProjectsStore = create<MyProjectsState>((set, get) => ({
@@ -97,5 +134,36 @@ export const useMyProjectsStore = create<MyProjectsState>((set, get) => ({
   },
   init: () => {
     set({ projects: loadFromStorage() });
+  },
+  seedBuiltins: (tools, locale) => {
+    if (localStorage.getItem(SEED_FLAG_KEY) === '1') return;
+
+    const seeded: MyProject[] = [];
+    for (const id of SEED_TOOL_IDS) {
+      const tool = tools.find((t) => t.id === id);
+      if (!tool) continue; // tool scan not done yet for this one
+      seeded.push({
+        id: `builtin-${id}-${Math.random().toString(36).slice(2, 8)}`,
+        name: pickToolName(tool, locale),
+        iconPath: `./icons/tools/${id}.svg`,
+        launcherPath: tool.detectedPath || '',
+        modelsJsonPath: tool.configPath || '',
+        createdAt: Date.now(),
+        linkedToolId: id,
+      });
+    }
+
+    // Wait for ALL seeds to be resolvable before flipping the flag — this lets
+    // us re-attempt on later renders if e.g. only reversi was loaded first.
+    if (seeded.length < SEED_TOOL_IDS.length) return;
+
+    const next = [...seeded, ...get().projects];
+    saveToStorage(next);
+    set({ projects: next });
+    try {
+      localStorage.setItem(SEED_FLAG_KEY, '1');
+    } catch {
+      /* private mode — accept that we'll re-seed next launch */
+    }
   },
 }));
