@@ -6,7 +6,7 @@
 // is filled in once we add the Rust read_active_model command for user
 // projects (deferred to a follow-up turn — placeholder shows "—" for now).
 import React, { useState, useEffect, useCallback } from 'react';
-import { Plus, Folder, Pencil, Trash2, X } from 'lucide-react';
+import { Plus, Folder, X } from 'lucide-react';
 import { open as openDialog } from '@tauri-apps/plugin-dialog';
 import { useI18n } from '../../hooks/useI18n';
 import {
@@ -165,26 +165,28 @@ const ProjectToolCard: React.FC<{
       selected={selected}
       onClick={onSelect}
       actions={
+        // Bracketed mono text — same visual treatment as ModelCard's
+        // [delete] / [edit] in the Model Nexus, so the two pages feel
+        // like part of the same product. Position stays in the version-
+        // row slot (right-aligned at the bottom of the card).
         <div className="flex items-center justify-end gap-2">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit(project.id);
-            }}
-            className="text-[12px] text-cyber-text-secondary hover:text-cyber-text px-2 py-0.5 rounded hover:bg-cyber-elevated transition-colors flex items-center gap-1"
-          >
-            <Pencil size={12} />
-            {t('btn.edit')}
-          </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
               deleteProject(project.id);
             }}
-            className="text-[12px] text-cyber-text-secondary hover:text-cyber-error px-2 py-0.5 rounded hover:bg-cyber-elevated transition-colors flex items-center gap-1"
+            className="text-xs font-mono text-cyber-text-muted/70 hover:text-red-500 transition-colors"
           >
-            <Trash2 size={12} />
-            {t('btn.delete')}
+            [{t('btn.delete')}]
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(project.id);
+            }}
+            className="text-xs font-mono text-cyber-text-muted/70 hover:text-cyber-text transition-colors"
+          >
+            [{t('btn.edit')}]
           </button>
         </div>
       }
