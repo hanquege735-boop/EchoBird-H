@@ -154,8 +154,9 @@ const zhHant: Partial<Translations> = {
   'toolCat.desktop': '桌面端',
   'toolCat.utility': '工具',
   'agent.modelsTab': '模型',
-  'agent.codexRelayLabel': '上游直連',
-  'agent.codexRelayHint': '透過網路中轉或 API Router 接入官方伺服器，模型和應用均屬同一家公司。',
+  'agent.codexRelayLabel': '中轉模式',
+  'agent.codexRelayHint':
+    '透過中轉連接官方伺服器，且中轉站或 API Router 提供的模型 ID 與應用屬同一家公司。',
   'agent.installViaMother': 'AI 自動安裝',
   'tool.models': '模型',
   'tool.app': '應用',

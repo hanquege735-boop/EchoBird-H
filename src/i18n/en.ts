@@ -175,9 +175,9 @@ const en: Translations = {
   'toolCat.utility': 'Utilities',
   // Agent Worker tabs
   'agent.modelsTab': 'MODELS',
-  'agent.codexRelayLabel': 'Direct upstream',
+  'agent.codexRelayLabel': 'Relay mode',
   'agent.codexRelayHint':
-    'Connects to the official server through a network relay or API Router — model and app from the same company.',
+    'Connects to the official server via a relay; the model ID served by the relay or API Router must belong to the same company as the app.',
   'agent.installViaMother': 'AI Auto-Install',
   // ToolCard labels
   'tool.models': 'Models',

@@ -159,9 +159,9 @@ const ja: Partial<Translations> = {
   'toolCat.desktop': 'デスクトップ',
   'toolCat.utility': 'ユーティリティ',
   'agent.modelsTab': 'モデル',
-  'agent.codexRelayLabel': '上流ダイレクト',
+  'agent.codexRelayLabel': '中継モード',
   'agent.codexRelayHint':
-    'ネットワーク中継または API Router 経由で公式サーバーへ接続。モデルとアプリが同じ会社のものに限ります。',
+    '中継経由で公式サーバーへ接続。中継または API Router が提供するモデル ID とアプリが同じ会社のものに限ります。',
   'agent.installViaMother': 'AI 自動インストール',
   'tool.models': 'モデル',
   'tool.app': 'アプリ',
