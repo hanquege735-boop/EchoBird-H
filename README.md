@@ -30,12 +30,20 @@ Friends kept asking me to install **Claude Code**, **OpenClaw**, **Hermes Agent*
 
 ## Highlights
 
-- **One-click install** for Claude Code, OpenClaw, Hermes Agent, and more
-- **Bring your own model** — OpenAI / Anthropic / local LLMs / relays, all in one place
-- **Speed-test every model** in one click before you commit
-- **Local LLM runtime** built in — pick a quant, hit START
-- **Install & Repair Agent** — talk to it like a colleague when something breaks
-- **Cross-platform** — Windows, macOS, Linux (x64 + arm64)
+EchoBird offers **4 scenarios** sharing a **unified model data hub** — **configure once, used everywhere**.
+
+### 4 scenarios
+
+- **Install & Repair Agent** — let an AI install and fix mainstream tools (Claude Code, OpenClaw, Hermes Agent, …); works locally and remotely
+- **One-click local LLM** — bundled vLLM / SGLang / llama.cpp runtimes; pick a quant, hit START
+- **My AI Projects** — onboard and manage your own vibe-coded apps and games inside EchoBird
+- **App Manager** — one-click launch and management for every AI / Agent app & game
+
+### Shared foundation
+
+- **Model Nexus** — a unified data hub for OpenAI / Anthropic / local LLMs / API Routers; configure once and all 4 scenarios pick it up; one-click latency check before you commit
+
+**Cross-platform** — Windows, macOS, Linux (x64 + arm64)
 
 ## Screenshots
 
@@ -54,14 +62,14 @@ Friends kept asking me to install **Claude Code**, **OpenClaw**, **Hermes Agent*
 </tr>
 </table>
 
-### Model Nexus — manage every model, speed-test in one click
+### Model Nexus — the unified model data hub, configure once
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/model-en-dark.png">
   <img alt="Model Nexus" src="docs/screenshots/model-en-light.png" width="100%">
 </picture>
 
-### App Manager — one-click launch, switch any tool's model in seconds
+### App Manager — one-click launch and management for every AI / Agent app
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/app-en-dark.png">

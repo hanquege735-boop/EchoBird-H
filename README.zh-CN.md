@@ -29,12 +29,20 @@
 
 ## 亮点
 
-- **一键安装** Claude Code、OpenClaw、Hermes Agent 等多款主流 AI 工具
-- **自带模型** —— OpenAI / Anthropic / 本地大模型 / 中转站,统一管理
-- **一键测速** —— 在使用前先看清每个模型的真实延迟
-- **本地大模型运行时** —— 选好量化版本,按下 START 就能跑
-- **安装与修复 Agent** —— 出问题时,像跟同事聊天一样把它搞定
-- **跨平台** —— Windows、macOS、Linux(x64 + arm64)
+EchoBird 提供 **4 大场景**,共享一个 **模型数据中枢** —— **一处配置,四处生效**。
+
+### 4 大场景
+
+- **安装与修复** —— 让 AI 帮你安装与修复主流 AI 工具(Claude Code、OpenClaw、Hermes Agent 等);本地与远程都支持
+- **一键本地大模型** —— 内置 vLLM / SGLang / llama.cpp 三引擎,选好量化版本按下 START 就能跑
+- **我的 AI 项目** —— 你自己 Vibe Coding 的应用或游戏,在 EchoBird 里统一接入与管理
+- **应用管理** —— 所有跟 AI / Agent 有关的应用或游戏一键启动与管理
+
+### 共享地基
+
+- **模型中心** —— 统一的模型数据中枢(OpenAI / Anthropic / 本地 LLM / API Router);一处配置好,4 大场景立即生效;附带一键测速,使用前看清真实延迟
+
+**跨平台** —— Windows、macOS、Linux(x64 + arm64)
 
 ## 界面截图
 
@@ -53,14 +61,14 @@
 </tr>
 </table>
 
-### 模型中心 —— 统一管理,一键测速
+### 模型中心 —— 模型数据中枢,一处配置,四处生效
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/model-cn-dark.png">
   <img alt="模型中心" src="docs/screenshots/model-cn-light.png" width="100%">
 </picture>
 
-### 应用管理 —— 一键启动应用,顺手切换模型
+### 应用管理 —— 所有 AI / Agent 应用一键启动与管理
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/app-cn-dark.png">

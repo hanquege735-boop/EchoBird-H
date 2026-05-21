@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EchoBird — 像专家一样部署 AI Agent · 一键安装 Claude Code、OpenClaw、本地大模型</title>
     <meta name="description"
-        content="EchoBird — 一键安装 AI Agent,一键切换模型,一键部署本地大模型。不打开终端,不写配置文件。Windows / macOS / Linux 全平台。">
+        content="EchoBird — 一键安装 AI Agent,统一的模型数据中枢,一键部署本地大模型。不打开终端,不写配置文件。Windows / macOS / Linux 全平台。">
     <meta name="keywords"
         content="EchoBird,AI Agent,Claude Code,OpenClaw,Codex,本地大模型,llama.cpp,vLLM,Qwen,DeepSeek,模型管理,一键安装">
     <meta property="og:title" content="EchoBird — 像专家一样部署 AI Agent">
-    <meta property="og:description" content="一键安装 Agent · 一键切换模型 · 一键部署本地大模型">
+    <meta property="og:description" content="一键安装 Agent · 模型数据中枢 · 一键部署本地大模型">
     <meta property="og:image" content="./icon.png">
     <link rel="icon" href="./icon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1188,9 +1188,9 @@
         const I18N = {
             'zh-CN': {
                 'meta.title': 'EchoBird — 一键安装 AI Agent · Claude Code、OpenClaw、本地大模型',
-                'meta.desc': 'EchoBird — 一键安装 AI Agent,一键切换模型,一键部署本地大模型。Windows / macOS / Linux 全平台。',
+                'meta.desc': 'EchoBird — 一键安装 AI Agent,统一的模型数据中枢,一键部署本地大模型。Windows / macOS / Linux 全平台。',
                 'meta.ogTitle': 'EchoBird — AI 部署不再是先有鸡先有蛋',
-                'meta.ogDesc': '一键安装 Agent · 一键切换模型 · 一键部署本地大模型',
+                'meta.ogDesc': '一键安装 Agent · 模型数据中枢 · 一键部署本地大模型',
                 'nav.brand': 'EchoBird',
                 'nav.showcase': '界面',
                 'nav.features': '功能',
@@ -1206,8 +1206,8 @@
                 'showcase.themeLight': '浅色',
                 'showcase.themeDark': '深色',
                 'showcase.news': 'AI 资讯 & 明星项目 — 每天的 AI 简报',
-                'showcase.model': '模型中心 — 统一管理,一键测速',
-                'showcase.app': '应用管理 — 一键启动,顺手切换模型',
+                'showcase.model': '模型中心 — 模型数据中枢,一处配置四处生效',
+                'showcase.app': '应用管理 — 所有 AI / Agent 应用一键启动与管理',
                 'showcase.localllm': '本地大模型 — 在自己机器上跑',
                 'showcase.agent': '安装与修复 — 用对话搞定部署和排障',
                 'hero.platforms': 'Windows · macOS · Linux · MIT 免费',
@@ -1221,9 +1221,9 @@
                 'pillar1.li1': '自动检测已安装环境,缺哪装哪',
                 'pillar1.li2': '内置启动器 — 不碰终端就能跑',
                 'pillar1.li3': '即插即用插件:丢一个 plugin.json 就能扩展新工具',
-                'pillar2.h3.html': '一键切换 <span class="hl">所有 Agent 的模型</span>',
-                'pillar2.p': 'Model Nexus 把 OpenAI、Anthropic、Gemini、DeepSeek、Ollama 摆在同一个面板。OpenAI ↔ Anthropic 协议自由切换,零配置改动。',
-                'pillar2.li1': '双协议:OpenAI API + Anthropic API,按 Agent 单独指定',
+                'pillar2.h3.html': '<span class="hl">模型中心</span>:一处配置,四处生效',
+                'pillar2.p': 'Model Nexus 是 EchoBird 的模型数据中枢。OpenAI、Anthropic、Gemini、DeepSeek、Ollama、API Router 统一管理 —— 配置一次,应用管理 / 我的 AI 项目 / Mother Agent / 本地大模型 全部立即生效。',
+                'pillar2.li1': '双协议数据中枢:OpenAI API + Anthropic API 共存,按场景调用',
                 'pillar2.li2': '永远告别手动改 JSON / TOML / .env',
                 'pillar2.li3': '任意自定义 endpoint,一秒接入',
                 'pillar3.h3.html': '一键部署 <span class="hl">本地大模型</span>',
@@ -1241,7 +1241,7 @@
                 'local.sglang.desc': '为 Agent / 结构化输出 / 多轮调用做了深度优化的运行时。',
                 'download.h2': '现在就下载,五分钟跑起你的第一个 Agent',
                 'download.p': '免费 · 开源 · MIT 协议 · 无需注册 · 不上传任何数据到云端',
-                'footer.brand.p': '一个应用,搞定 Agent 安装、模型切换与本地 LLM 部署。',
+                'footer.brand.p': '一个应用,搞定 Agent 安装、模型数据中枢与本地 LLM 部署。',
                 'footer.col1.title': '产品',
                 'footer.col1.features': '核心功能',
                 'footer.col1.tools': '支持工具',
@@ -1256,9 +1256,9 @@
             },
             'en': {
                 'meta.title': 'EchoBird — 1-Click Install AI Agents · Claude Code, OpenClaw, Local LLMs',
-                'meta.desc': 'EchoBird — 1-Click install AI Agents, 1-Click switch models, 1-Click deploy local LLMs. Windows / macOS / Linux.',
+                'meta.desc': 'EchoBird — 1-Click install AI Agents, unified model data hub, 1-Click deploy local LLMs. Windows / macOS / Linux.',
                 'meta.ogTitle': 'EchoBird — AI deployment, no more chicken-and-egg',
-                'meta.ogDesc': '1-Click install · 1-Click switch · 1-Click deploy',
+                'meta.ogDesc': '1-Click install · Model data hub · 1-Click deploy',
                 'nav.brand': 'EchoBird',
                 'nav.showcase': 'Tour',
                 'nav.features': 'Features',
@@ -1274,8 +1274,8 @@
                 'showcase.themeLight': 'LIGHT',
                 'showcase.themeDark': 'DARK',
                 'showcase.news': 'AI News & Star Projects — your daily AI brief',
-                'showcase.model': 'Model Nexus — manage every model, speed-test in one click',
-                'showcase.app': 'App Manager — one-click launch, switch any tool\'s model in seconds',
+                'showcase.model': 'Model Nexus — unified model data hub, configure once',
+                'showcase.app': 'App Manager — one-click launch and management for every AI / Agent app',
                 'showcase.localllm': 'Local LLM — run models on your own machine',
                 'showcase.agent': 'Install & Repair Agent — chat-driven setup and troubleshooting',
                 'hero.platforms': 'Windows · macOS · Linux · MIT · Free',
@@ -1289,8 +1289,8 @@
                 'pillar1.li1': 'Auto-detects installed environments, fills in what\'s missing',
                 'pillar1.li2': 'Built-in launcher — never touch a terminal',
                 'pillar1.li3': 'Plug-and-play plugins: drop a plugin.json to add new tools',
-                'pillar2.h3.html': '1-Click Switch <span class="hl">every Agent\'s model</span>',
-                'pillar2.p': 'Model Nexus puts OpenAI, Anthropic, Gemini, DeepSeek, Ollama in one panel. Toggle OpenAI ↔ Anthropic protocols freely, zero config edits.',
+                'pillar2.h3.html': '<span class="hl">Model Nexus</span>: configure once, used everywhere',
+                'pillar2.p': 'Model Nexus is EchoBird\'s unified model data hub. OpenAI, Anthropic, Gemini, DeepSeek, Ollama, API Routers — manage them in one panel; App Manager / My AI Projects / Mother Agent / Local LLM all pick them up instantly.',
                 'pillar2.li1': 'Dual-protocol: OpenAI API + Anthropic API, per-agent override',
                 'pillar2.li2': 'Say goodbye to hand-editing JSON / TOML / .env forever',
                 'pillar2.li3': 'Any custom endpoint plugs in within a second',
@@ -1309,7 +1309,7 @@
                 'local.sglang.desc': 'Runtime deeply optimized for Agent, structured output, multi-turn workflows.',
                 'download.h2': 'Download now — get your first Agent running in five minutes',
                 'download.p': 'Free · Open Source · MIT License · No registration · Zero cloud upload',
-                'footer.brand.p': 'One app handles Agent install, model switching, and local LLM deployment.',
+                'footer.brand.p': 'One app handles Agent install, unified model data hub, and local LLM deployment.',
                 'footer.col1.title': 'Product',
                 'footer.col1.features': 'Core Features',
                 'footer.col1.tools': 'Supported Tools',
@@ -1491,11 +1491,11 @@
                 </button>
                 <button class="showcase-tab" data-tab="app" type="button"
                         data-name-zh="应用管理" data-name-en="App Manager"
-                        data-desc-zh="启动 + 换模型" data-desc-en="Launch + switch model">
+                        data-desc-zh="启动 + 管理" data-desc-en="Launch + manage">
                     <div class="tab-ico"><i class="fa-solid fa-bolt"></i></div>
                     <div class="tab-meta">
                         <div class="tab-name">应用管理</div>
-                        <div class="tab-desc">启动 + 换模型</div>
+                        <div class="tab-desc">启动 + 管理</div>
                     </div>
                 </button>
                 <button class="showcase-tab" data-tab="localllm" type="button"
@@ -1552,10 +1552,10 @@
                 <div class="feature-icon">
                     <i class="fa-solid fa-shuffle"></i>
                 </div>
-                <div class="feature-num">/ 02 — SWITCH</div>
-                <h3 data-i18n-html="pillar2.h3.html">一键切换 <span class="hl">所有 Agent 的模型</span></h3>
+                <div class="feature-num">/ 02 — HUB</div>
+                <h3 data-i18n-html="pillar2.h3.html"><span class="hl">模型中心</span>:一处配置,四处生效</h3>
                 <p data-i18n="pillar2.p">
-                    Model Nexus 把 OpenAI、Anthropic、Gemini、DeepSeek、Ollama 摆在同一个面板。OpenAI ↔ Anthropic 协议自由切换,零配置改动。
+                    Model Nexus 是 EchoBird 的模型数据中枢。OpenAI、Anthropic、Gemini、DeepSeek、Ollama、API Router 统一管理 —— 配置一次,应用管理 / 我的 AI 项目 / Mother Agent / 本地大模型 全部立即生效。
                 </p>
                 <ul>
                     <li><i class="fa-solid fa-check"></i> <span data-i18n="pillar2.li1">双协议:OpenAI API + Anthropic API,按 Agent 单独指定</span></li>
@@ -1685,7 +1685,7 @@
                     <img src="./icon.png" alt="">
                     <span data-i18n="nav.brand">EchoBird</span>
                 </div>
-                <p data-i18n="footer.brand.p">一个应用,搞定 Agent 安装、模型切换与本地 LLM 部署。</p>
+                <p data-i18n="footer.brand.p">一个应用,搞定 Agent 安装、模型数据中枢与本地 LLM 部署。</p>
             </div>
             <div class="foot-col">
                 <h4 data-i18n="footer.col1.title">产品</h4>
