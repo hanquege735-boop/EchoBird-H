@@ -165,7 +165,7 @@ const zhHans: Partial<Translations> = {
   'vram.heavy': '吃力',
   'download.inQueue': '排队中',
   'download.pause': '暂停',
-  'server.gpuFull': '⚡ GPU 全速',
+  'server.gpuFull': '⚡ GPU 自动',
   'server.cpuOnly': '🖥 仅 CPU',
   'server.setupEngine': '安装引擎',
   'server.upgradeEngine': '升级引擎',

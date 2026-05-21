@@ -167,7 +167,7 @@ const zhHant: Partial<Translations> = {
   'vram.heavy': '吃力',
   'download.inQueue': '排隊中',
   'download.pause': '暫停',
-  'server.gpuFull': '⚡ GPU 全速',
+  'server.gpuFull': '⚡ GPU 自動',
   'server.cpuOnly': '🖥 僅 CPU',
   'server.setupEngine': '安裝引擎',
   'server.upgradeEngine': '升級引擎',

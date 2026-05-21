@@ -186,6 +186,18 @@ export const LocalServerMain: React.FC = () => {
     }
   }, [isLinux, hasNvidiaGpu, hasAmdGpu, runtime, setRuntime]);
 
+  // No-GPU + llama-server: snap gpuLayers from the -1 default (GPU-Auto)
+  // down to 0 (CPU only) once systemInfo lands. Without this the COMPUTE
+  // select shows '...' until the user clicks it — the -1 value has no
+  // matching option when only CPU-only is offered. Also keeps the value
+  // passed to startLlmServer in sync with what the user sees.
+  useEffect(() => {
+    if (!systemInfo) return;
+    if (runtime === 'llama-server' && !hasNvidiaGpu && !hasAmdGpu && gpuLayers === -1) {
+      setGpuLayers(0);
+    }
+  }, [systemInfo, hasNvidiaGpu, hasAmdGpu, runtime, gpuLayers]);
+
   // Server state
   const [logs, setLogs] = useState<string[]>([]);
   const logsEndRef = useRef<HTMLDivElement>(null);

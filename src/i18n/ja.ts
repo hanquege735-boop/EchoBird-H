@@ -173,7 +173,7 @@ const ja: Partial<Translations> = {
   'vram.heavy': '重い',
   'download.inQueue': '待機中',
   'download.pause': '一時停止',
-  'server.gpuFull': '⚡ GPU フル',
+  'server.gpuFull': '⚡ GPU 自動',
   'server.cpuOnly': '🖥 CPU のみ',
   'server.setupEngine': 'エンジン導入',
   'server.upgradeEngine': 'エンジン更新',

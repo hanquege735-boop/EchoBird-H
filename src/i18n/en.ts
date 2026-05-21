@@ -193,7 +193,7 @@ const en: Translations = {
   'download.inQueue': 'in queue',
   'download.pause': 'Pause',
   // Local Server
-  'server.gpuFull': '⚡ GPU Full',
+  'server.gpuFull': '⚡ GPU Auto',
   'server.cpuOnly': '🖥 CPU Only',
   'server.setupEngine': 'SETUP ENGINE',
   'server.upgradeEngine': 'UPGRADE ENGINE',
