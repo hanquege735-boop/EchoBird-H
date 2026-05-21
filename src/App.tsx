@@ -83,7 +83,7 @@ function SidebarConnected({ onSettingsClick }: { onSettingsClick: () => void }) 
 // Helper: h (hidden) vs shown class
 const page = (active: boolean) => (active ? 'contents' : 'hidden');
 const pageBlock = (active: boolean) => (active ? 'flex-1 flex flex-col overflow-hidden' : 'hidden');
-const pageScroll = (active: boolean) => (active ? 'flex-1 overflow-y-auto' : 'hidden');
+const pageScroll = (active: boolean) => (active ? 'flex-1 overflow-y-auto pulse-scroll' : 'hidden');
 
 function App() {
   const { t, locale, setLocale } = useI18n();
