@@ -12,6 +12,14 @@
         "from source": "git clone https://github.com/openclaw/openclaw.git && cd openclaw && pnpm install && pnpm build",
         "note": "Requires Node.js >= 22.14.0 (IMPORTANT: v22.12.0 and below will fail at runtime). ALWAYS run `node --version` first and verify the result is >= 22.14.0 before installing. If lower, upgrade from https://nodejs.org before proceeding. For REMOTE servers via SSH, skip --onboard to avoid interactive prompts. The onboard step installs the Gateway daemon (launchd/systemd)."
     },
+    "install_flow": {
+        "summary": "Install npm package, then user must run `openclaw onboard` once in their own terminal to complete first-run initialization (interactive, agent cannot drive it via shell_exec).",
+        "agent_steps": [
+            "After the install command exits successfully, remind the user in a separate prominent line that they MUST run `openclaw onboard` once in their own terminal — OpenClaw refuses to start until this initial onboarding completes. This is OpenClaw's own one-time flow, not an EchoBird requirement.",
+            "Do NOT attempt to run `openclaw onboard` yourself via shell_exec. It is an interactive command that prompts the user inline and will hang in a non-tty context. Hand it back to the user's own terminal.",
+            "This reminder applies to BOTH fresh installs and upgrades (re-running `openclaw onboard` after an upgrade is safe and sometimes necessary)."
+        ]
+    },
     "network_requirements": {
         "test_urls": ["https://registry.npmjs.org", "https://github.com/openclaw/openclaw"],
         "mirrors": {
