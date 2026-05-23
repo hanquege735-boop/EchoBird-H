@@ -80,7 +80,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          # Pinned to 22 to match ci.yml. setup-node@v6 + node-version: lts/*
+          # triggers "manifest.filter is not a function" on Node 24 runners
+          # (Windows + Linux x86_64 hit this on tag v4.9.4 release run
+          # 26334424977 — 2026-05-23). ci.yml never hit it because it always
+          # used a numeric pin.
+          node-version: 22
           cache: 'npm'
 
       # Pinned to 1.93 — see comment in ci.yml. Keep both files in
