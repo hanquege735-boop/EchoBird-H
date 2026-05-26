@@ -173,6 +173,7 @@ export type TKey =
   | 'server.tier.recommended'
   | 'server.tier.flagship'
   | 'server.tier.minSpec'
+  | 'server.tier.minSpecAuto'
   | 'server.local'
   | 'server.store'
   | 'server.selectModelDir'

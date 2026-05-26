@@ -129,6 +129,7 @@ const zhHant: Partial<Translations> = {
   'server.tier.recommended': '推薦',
   'server.tier.flagship': '旗艦',
   'server.tier.minSpec': 'CUDA 模組需與引擎版本一致 「建議先安裝 CUDA 模組,再安裝引擎」',
+  'server.tier.minSpecAuto': 'macOS / Linux 系統自動管理 CUDA,直接安裝引擎即可',
   'server.local': '本地',
   'server.store': '商店',
   'server.selectModelDir': '選擇模型目錄',

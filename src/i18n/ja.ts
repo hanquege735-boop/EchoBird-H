@@ -135,6 +135,7 @@ const ja: Partial<Translations> = {
   'server.tier.flagship': 'フラッグシップ',
   'server.tier.minSpec':
     'CUDA モジュールはエンジンのビルドと一致させる必要があります — 先にモジュールを、次にエンジンを',
+  'server.tier.minSpecAuto': 'macOS / Linux は CUDA を自動管理 — エンジンをインストールするだけ',
   'server.local': 'ローカル',
   'server.store': 'ストア',
   'server.selectModelDir': 'モデルディレクトリを選択',

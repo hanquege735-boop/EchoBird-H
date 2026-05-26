@@ -706,7 +706,7 @@ export const LocalServerMain: React.FC = () => {
                         <tr className="text-cyber-text-secondary">
                           <th className="px-3 pb-3 text-left border-b border-cyber-border/80 w-20 text-xs font-semibold uppercase tracking-wider"></th>
                           <th className="px-3 pb-3 text-left border-b border-cyber-border/80 text-xs font-semibold uppercase tracking-wider">
-                            {t('server.tier.minSpec')}
+                            {isWindows ? t('server.tier.minSpec') : t('server.tier.minSpecAuto')}
                           </th>
                         </tr>
                       </thead>

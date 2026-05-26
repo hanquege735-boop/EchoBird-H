@@ -144,6 +144,7 @@ const en: Translations = {
   'server.tier.flagship': 'Flagship',
   'server.tier.minSpec':
     'CUDA modules must match the engine build — install modules first, then the engine',
+  'server.tier.minSpecAuto': 'macOS / Linux — CUDA is auto-managed; just install the engine',
   'server.local': 'LOCAL',
   'server.store': 'STORE',
   'server.selectModelDir': 'Select model directory',
