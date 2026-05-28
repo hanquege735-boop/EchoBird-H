@@ -1099,15 +1099,46 @@ export const LocalServerPanel: React.FC = () => {
     }
   };
 
+  // Collapse llama.cpp split-GGUF shards (`foo-00001-of-00008.gguf` …
+  // `foo-00008-of-00008.gguf`) into a single virtual entry: keep the first
+  // shard's path (llama-server auto-loads the rest from the same dir when
+  // given the first shard) but sum every shard's size so the displayed size
+  // and VRAM estimate reflect the whole model, not just one shard.
+  const consolidatedFiles = (() => {
+    const shardGroups: Record<string, GgufFileEntry[]> = {};
+    const single: GgufFileEntry[] = [];
+    for (const f of ggufFiles) {
+      const m = f.fileName.match(/^(.+)-\d{5}-of-(\d{5})\.gguf$/i);
+      if (!m) {
+        single.push(f);
+        continue;
+      }
+      const key = `${m[1]}-of-${m[2]}`;
+      (shardGroups[key] ||= []).push(f);
+    }
+    const out: GgufFileEntry[] = [...single];
+    for (const shards of Object.values(shardGroups)) {
+      shards.sort((a, b) => a.fileName.localeCompare(b.fileName));
+      const first = shards[0];
+      const totalSize = shards.reduce((s, x) => s + x.fileSize, 0);
+      out.push({ ...first, fileSize: totalSize });
+    }
+    return out;
+  })();
+
   // Group local files by model name, with sourceDir
   const localGroups = (() => {
     const map: Record<
       string,
       { modelName: string; icon: string | null; sourceDir: string; variants: GgufFileEntry[] }
     > = {};
-    for (const f of ggufFiles) {
+    for (const f of consolidatedFiles) {
       const base = f.fileName
         .replace(/\.gguf$/i, '')
+        // Strip the shard suffix (`-00001-of-00008`) before stripping the
+        // quant suffix, so the resulting model name groups multi-shard +
+        // single-file variants of the same model under one card.
+        .replace(/-\d{5}-of-\d{5}$/i, '')
         .replace(/[-.](?:q[0-9_]+[a-z_]*|f16|f32|fp16|bf16)$/i, '');
       if (!map[base]) {
         const displayName = base.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
