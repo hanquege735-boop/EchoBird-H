@@ -175,6 +175,7 @@ const ja: Partial<Translations> = {
   'vram.good': '良好',
   'vram.tight': 'ギリギリ',
   'vram.heavy': '重い',
+  'vram.impossible': '不可',
   'download.inQueue': '待機中',
   'download.pause': '一時停止',
   'server.gpuFull': '⚡ GPU 自動',

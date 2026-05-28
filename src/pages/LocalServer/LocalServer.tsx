@@ -948,7 +948,13 @@ function getVramFitness(
   if (ratio <= 0.7) return { label: t('vram.easy'), color: 'text-green-400' };
   if (ratio <= 1.0) return { label: t('vram.good'), color: 'text-cyber-accent' };
   if (ratio <= 1.3) return { label: t('vram.tight'), color: 'text-yellow-400' };
-  return { label: t('vram.heavy'), color: 'text-red-400' };
+  // ratio 1.3-3.0 = "heavy" (8GB rig running a 12GB model — slow but
+  // technically possible via offload / smaller quant). ratio > 3.0 = the
+  // user's hardware is fundamentally too small for this variant; show a
+  // stronger label so the multi-shard flagships don't look like a mere
+  // "your fan will spin" warning.
+  if (ratio <= 3.0) return { label: t('vram.heavy'), color: 'text-red-400' };
+  return { label: t('vram.impossible'), color: 'text-red-400' };
 }
 
 // Known model names for icon detection

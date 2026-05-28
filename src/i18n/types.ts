@@ -202,6 +202,7 @@ export type TKey =
   | 'vram.good'
   | 'vram.tight'
   | 'vram.heavy'
+  | 'vram.impossible'
   // Common
   | 'common.confirm'
   | 'common.areYouSure'

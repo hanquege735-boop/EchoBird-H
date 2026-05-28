@@ -193,6 +193,7 @@ const en: Translations = {
   'vram.good': 'Good',
   'vram.tight': 'Tight',
   'vram.heavy': 'Heavy',
+  'vram.impossible': 'Way over',
   // Download status
   'download.inQueue': 'in queue',
   'download.pause': 'Pause',

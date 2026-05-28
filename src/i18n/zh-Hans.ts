@@ -167,6 +167,7 @@ const zhHans: Partial<Translations> = {
   'vram.good': '良好',
   'vram.tight': '紧凑',
   'vram.heavy': '吃力',
+  'vram.impossible': '远超',
   'download.inQueue': '排队中',
   'download.pause': '暂停',
   'server.gpuFull': '⚡ GPU 自动',
