@@ -1,24 +1,59 @@
 {
     "id": "hermes",
-    "displayName": "Hermes Agent",
-    "homepage": "https://hermes-agent.nousresearch.com",
+    "displayName": "Hermes Desktop",
+    "homepage": "https://hermes-agent.nousresearch.com/desktop",
     "docs": "https://hermes-agent.nousresearch.com/docs/",
     "github": "https://github.com/NousResearch/hermes-agent",
+    "kind": "desktop_app",
+    "platforms": ["windows", "macos", "linux"],
     "install": {
-        "one-liner (macOS / Linux)": "curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash",
-        "note": "Python-based agent by Nous Research. Requires Linux or macOS (not supported on Windows). After install, run 'source ~/.bashrc' then 'hermes --version' to verify."
+        "summary": "Open-source AI agent by Nous Research (MIT). ONE installer builds the Electron desktop GUI AND puts the `hermes` CLI on PATH — same repo, not two products.",
+        "windows_official": "Global / unblocked networks: download Hermes-Setup.exe from https://hermes-agent.nousresearch.com/desktop and run it.",
+        "macos_official": "Global / unblocked networks: download the .dmg from https://hermes-agent.nousresearch.com/desktop.",
+        "linux_official": "Global / unblocked networks: follow the terminal install at https://hermes-agent.nousresearch.com/desktop.",
+        "note": "NOT a click-through wizard like Claude Desktop. The official installer is a thin BOOTSTRAPPER that fetches scripts/install.ps1 (Windows) or install.sh (mac/Linux) from raw.githubusercontent.com, then runs a heavy ~16-step build: uv -> Python 3.11 -> Git -> Node.js 22 -> clone repo -> Python/Node deps -> Electron desktop build -> Playwright Chromium -> PATH. In mainland China the bootstrapper dies at the very first hop (raw.githubusercontent.com is GFW-blocked, os error 10054 / RST), so the agent must DRIVE a mirrored install — see install_flow.agent_steps."
     },
     "cli": {
-        "description": "Hermes uses 'hermes chat -q' for non-interactive oneshot mode.",
-        "chat_command": "hermes chat -q \"<message>\" --quiet",
         "detect_command": "hermes --version",
-        "supported_flags": ["-q/--query (message text)", "--quiet (suppress UI, output only)", "--model (model override)", "--provider (provider override)", "--resume (resume session)"],
-        "role_mechanism": "Hermes uses SOUL.md at ~/.hermes/SOUL.md for agent identity. EchoBird writes role content here; Hermes auto-detects changes on next session.",
-        "output_format": "With --quiet flag, outputs clean text response only.",
-        "note": "Hermes is Python-based, by Nous Research. Supports 200+ models via OpenRouter, plus MiniMax, Kimi, OpenAI, Anthropic, custom endpoints. No native Windows support."
+        "note": "The same install also yields a `hermes` CLI on PATH (oneshot: `hermes chat -q \"<message>\" --quiet`). Primary user-facing form is the desktop GUI; the CLI is a bonus, not separately maintained."
+    },
+    "install_flow": {
+        "summary": "Probe network. Global/reachable -> run the official installer. Mainland China (github/raw blocked) -> bypass the bootstrapper and run the install script via a reachable GitHub mirror, with China package mirrors set as env vars.",
+        "agent_steps": [
+            "Desktop app — LOCAL machine only. If connected to a remote server, switch to the local server first.",
+            "Detect OS (PowerShell `$IsWindows` / `uname -s`).",
+            "NETWORK PROBE: test whether raw.githubusercontent.com and github.com are reachable (e.g. `curl -m 5 -sI https://raw.githubusercontent.com`). If reachable (global / unblocked) -> run the OFFICIAL installer directly (Windows: download & run Hermes-Setup.exe from hermes-agent.nousresearch.com/desktop; macOS: the .dmg; Linux: the official terminal install) and SKIP the mirror steps. Keep this path working for global users.",
+            "IF raw/github are blocked (mainland China — the common case): do NOT run Hermes-Setup.exe (its first hop to raw.githubusercontent.com fails with os error 10054 / RST). Drive a mirrored install instead, steps A-D below.",
+            "STEP A — set China package mirrors as environment variables for the whole install session (these npmmirror/Tsinghua mirrors are stable and were verified to exist): PyPI -> `UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple` and `PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple`; uv's Python download -> `UV_PYTHON_INSTALL_MIRROR=https://registry.npmmirror.com/-/binary/python-build-standalone`; npm -> `npm_config_registry=https://registry.npmmirror.com`; Node.js portable -> npmmirror node mirror `https://registry.npmmirror.com/-/binary/node/`; Electron -> `ELECTRON_MIRROR=https://registry.npmmirror.com/-/binary/electron/`; Playwright -> `PLAYWRIGHT_DOWNLOAD_HOST=https://registry.npmmirror.com/-/binary/playwright`.",
+            "STEP B — route git through a reachable GitHub proxy so the repo clone (and any github.com release downloads) succeed: `git config --global url.\"https://<working-gh-proxy>/https://github.com/\".insteadOf \"https://github.com/\"`. GitHub proxies (ghproxy-class) are volatile — pick one that currently responds. For PortableGit specifically you can instead use npmmirror's `git-for-windows` mirror (https://registry.npmmirror.com/-/binary/git-for-windows/) or just pre-install Git (`winget install Git.Git`).",
+            "STEP C — fetch the install SCRIPT from a China-reachable GitHub mirror instead of the blocked raw.githubusercontent.com: Windows `https://cdn.jsdelivr.net/gh/NousResearch/hermes-agent@main/scripts/install.ps1`, mac/Linux the same path ending `/install.sh`. jsdelivr mirrors GitHub raw and was verified to serve this file; if jsdelivr is unreachable on this network, use a ghproxy-class raw proxy.",
+            "STEP D — run the fetched script with the STEP A env vars set and the STEP B git proxy configured. The script's internal github.com calls are redirected by the git insteadOf rule; its pip / npm / node / electron / playwright downloads are redirected by the env vars.",
+            "BOUNDED LATITUDE + SECURITY: mirrors (jsdelivr / gh-proxy) come and go — if a hop fails, find an alternative working mirror at runtime rather than giving up; you may improvise beyond these steps. BUT the script you run is the OFFICIAL Hermes repo content fetched via a mirror — make sure the mirror serves the genuine repo (do not run a modified/untrusted script), and NEVER recommend a specific commercial VPN.",
+            "VERIFY: after install, `hermes --version` confirms the CLI is on PATH; the Electron desktop app is built under %LOCALAPPDATA%\\hermes (Windows) / the app bundle (macOS).",
+            "Tell the user plainly what was installed (Hermes desktop GUI + `hermes` CLI), where, and how to launch it."
+        ],
+        "tell_user": [
+            "Whether the official or the China-mirrored path was used",
+            "That ONE install gives both the desktop GUI and the `hermes` CLI",
+            "Install location and how to launch",
+            "If a non-default mirror/proxy was used, that it was a China-network workaround"
+        ]
     },
     "network_requirements": {
-        "test_urls": ["https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh"],
-        "mirrors": {}
+        "test_urls": ["https://raw.githubusercontent.com", "https://github.com"],
+        "blocked_regions": {
+            "zh-CN": "The official Hermes-Setup.exe is a bootstrapper that fetches scripts/install.ps1 from raw.githubusercontent.com — ~always GFW-blocked in mainland China (os error 10054 / RST), so the official installer fails outright. The build also pulls from github.com (clone, PortableGit), PyPI, nodejs.org, npm, the Electron CDN and the Playwright CDN — most are throttled/blocked in CN. Bypass: fetch the script via jsdelivr/ghproxy and set China package mirrors (Tsinghua PyPI; npmmirror for node/npm/electron/playwright/python-build-standalone; a GitHub proxy for the git clone). See install_flow.agent_steps."
+        },
+        "mirrors": {
+            "github_raw": "https://cdn.jsdelivr.net/gh/NousResearch/hermes-agent@main/ (jsdelivr; or a ghproxy-class raw proxy, volatile — verify at runtime)",
+            "github_clone": "git insteadOf via a ghproxy-class proxy (volatile — verify at runtime)",
+            "pypi": "https://pypi.tuna.tsinghua.edu.cn/simple",
+            "npm": "https://registry.npmmirror.com",
+            "node": "https://registry.npmmirror.com/-/binary/node/",
+            "electron": "https://registry.npmmirror.com/-/binary/electron/",
+            "playwright": "https://registry.npmmirror.com/-/binary/playwright",
+            "python-build-standalone": "https://registry.npmmirror.com/-/binary/python-build-standalone",
+            "git-for-windows": "https://registry.npmmirror.com/-/binary/git-for-windows/"
+        }
     }
 }
