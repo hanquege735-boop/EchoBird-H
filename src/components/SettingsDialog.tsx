@@ -61,7 +61,14 @@ export const SettingsDialog: React.FC<SettingsDialogProps> = ({
   const handleCloseToTrayChange = useCallback(async (value: boolean | null) => {
     setCloseToTray(value);
     const settings = await api.getSettings();
-    await api.saveSettings({ ...settings, closeToTray: value });
+    // Mark the close behavior as explicitly chosen. This both suppresses the
+    // first-time onboarding dialog and — critically — prevents that dialog from
+    // later overwriting an explicit "always ask" (null) selection.
+    await api.saveSettings({
+      ...settings,
+      closeToTray: value,
+      closeWindowBehaviorSet: true,
+    });
   }, []);
 
   // Close with animation

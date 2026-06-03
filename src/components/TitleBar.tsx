@@ -81,14 +81,21 @@ export const TitleBar: React.FC<TitleBarProps> = ({ onSettingsClick, onFeedbackC
     const win = getCurrentWindow();
     const settings = await getSettings();
 
-    // Save user's choice (direct or tray)
-    await saveSettings({
-      ...settings,
-      closeToTray: choice === 'tray',
-      closeWindowBehaviorSet: true,
-    });
+    // Only persist this choice as the permanent preference during first-time
+    // onboarding (the user has never made an explicit close-behavior choice).
+    // When the user has explicitly selected "always ask" (closeToTray === null
+    // with closeWindowBehaviorSet === true), this dialog is a one-time prompt and
+    // must NOT overwrite their setting — otherwise picking "exit" or "tray" here
+    // silently cancels "always ask".
+    if (!settings.closeWindowBehaviorSet) {
+      await saveSettings({
+        ...settings,
+        closeToTray: choice === 'tray',
+        closeWindowBehaviorSet: true,
+      });
+    }
 
-    // Execute the chosen action
+    // Execute the chosen action (one-time when in "always ask" mode)
     if (choice === 'tray') {
       await win.hide();
     } else {
