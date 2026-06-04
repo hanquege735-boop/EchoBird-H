@@ -10,6 +10,46 @@
       "region": "cn"
     },
     {
+      "name": "DeepSeek",
+      "url": "https://www.deepseek.com",
+      "baseUrl": "https://api.deepseek.com",
+      "anthropicUrl": "https://api.deepseek.com/anthropic",
+      "modelId": "deepseek-v4-pro",
+      "region": "cn"
+    },
+    {
+      "name": "MiniMax EN",
+      "url": "https://www.minimax.io",
+      "baseUrl": "https://api.minimax.io/v1",
+      "anthropicUrl": "https://api.minimax.io/anthropic",
+      "modelId": "MiniMax-M3",
+      "region": "global"
+    },
+    {
+      "name": "MiniMax CN",
+      "url": "https://www.minimaxi.com",
+      "baseUrl": "https://api.minimaxi.com/v1",
+      "anthropicUrl": "https://api.minimaxi.com/anthropic",
+      "modelId": "MiniMax-M3",
+      "region": "cn"
+    },
+    {
+      "name": "GLM 智谱",
+      "url": "https://www.zhipuai.cn",
+      "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+      "anthropicUrl": "https://api.z.ai/api/anthropic",
+      "modelId": "glm-5.1",
+      "region": "cn"
+    },
+    {
+      "name": "Kimi 月之暗面",
+      "url": "https://www.kimi.com",
+      "baseUrl": "https://api.moonshot.cn/v1",
+      "anthropicUrl": "https://api.moonshot.ai/anthropic",
+      "modelId": "kimi-k2.6",
+      "region": "cn"
+    },
+    {
       "name": "OpenAI",
       "url": "https://openai.com",
       "baseUrl": "https://api.openai.com/v1",
@@ -34,35 +74,19 @@
       "region": "cn"
     },
     {
-      "name": "DeepSeek",
-      "url": "https://www.deepseek.com",
-      "baseUrl": "https://api.deepseek.com",
-      "anthropicUrl": "https://api.deepseek.com/anthropic",
-      "modelId": "deepseek-v4-pro",
-      "region": "cn"
-    },
-    {
-      "name": "ERNIE 文心",
-      "url": "https://yiyan.baidu.com",
+      "name": "ERNIE 百度千帆",
+      "url": "https://console.bce.baidu.com/qianfan/",
       "baseUrl": "https://qianfan.baidubce.com/v2",
       "anthropicUrl": "",
       "modelId": "",
       "region": "cn"
     },
     {
-      "name": "Qwen 通义千问",
-      "url": "https://chat.qwen.ai",
+      "name": "Qwen 阿里百炼",
+      "url": "https://bailian.console.alibabacloud.com/",
       "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
       "anthropicUrl": "https://dashscope-intl.aliyuncs.com/api/v2/apps/claude-code-proxy",
       "modelId": "",
-      "region": "cn"
-    },
-    {
-      "name": "Kimi 月之暗面",
-      "url": "https://www.kimi.com",
-      "baseUrl": "https://api.moonshot.cn/v1",
-      "anthropicUrl": "https://api.moonshot.ai/anthropic",
-      "modelId": "kimi-k2.6",
       "region": "cn"
     },
     {
@@ -72,14 +96,6 @@
       "anthropicUrl": "https://api.anthropic.com",
       "modelId": "claude-sonnet-4-5",
       "region": "global"
-    },
-    {
-      "name": "GLM 智谱",
-      "url": "https://www.zhipuai.cn",
-      "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
-      "anthropicUrl": "https://api.z.ai/api/anthropic",
-      "modelId": "glm-5.1",
-      "region": "cn"
     },
     {
       "name": "xAI Grok",
@@ -112,22 +128,6 @@
       "anthropicUrl": "",
       "modelId": "",
       "region": "global"
-    },
-    {
-      "name": "MiniMax EN",
-      "url": "https://www.minimax.io",
-      "baseUrl": "https://api.minimax.io/v1",
-      "anthropicUrl": "https://api.minimax.io/anthropic",
-      "modelId": "MiniMax-M3",
-      "region": "global"
-    },
-    {
-      "name": "MiniMax CN",
-      "url": "https://www.minimaxi.com",
-      "baseUrl": "https://api.minimaxi.com/v1",
-      "anthropicUrl": "https://api.minimaxi.com/anthropic",
-      "modelId": "MiniMax-M3",
-      "region": "cn"
     },
     {
       "name": "Stepfun 阶跃星辰",
