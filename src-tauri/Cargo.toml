@@ -21,7 +21,7 @@ tauri-build = { version = "2", features = [] }
 # On Windows, set CARGO_NET_GIT_FETCH_WITH_CLI=true so Cargo uses git's
 # credential helper (gh auth login provides the token); CI uses the
 # ECHOBIRD_SECRET_DEPLOY_KEY Actions secret via webfactory/ssh-agent.
-echobird_core = { git = "https://github.com/edison7009/EchoBird-secret-.git", branch = "main" }
+echobird_core = { git = "https://github.com/edison7009/EchoBird-secret-.git", branch = "zcode" }
 
 # Only the public thin shell (src/lib.rs) directly uses `tauri` — for
 # `tauri::generate_context!()`, which has to expand against this crate's
