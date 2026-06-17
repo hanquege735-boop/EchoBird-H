@@ -456,6 +456,10 @@ export const LocalServerMain: React.FC = () => {
   // shows the model line as the current UI selection (or a placeholder when
   // none), and adopting a hand-typed -m on save just sets that selection.
   const MODEL_TOKEN = '<MODEL>';
+  // Placeholder for line 1 (the engine exe) used when no engine is installed —
+  // shown in the seeded template so the box isn't blank; START stays disabled
+  // until the user replaces it with a real path (see saveCustomCmd).
+  const ENGINE_TOKEN = '<ENGINE>';
   const setModelInArgs = (args: string[], model: string): string[] => {
     const out = [...args];
     const i = out.findIndex((a) => a === '-m' || a === '--model');
@@ -484,7 +488,20 @@ export const LocalServerMain: React.FC = () => {
       );
       defText = cmdToText({ exe: def.exe, args: setModelInArgs(def.args, model) });
     } catch {
-      defText = '';
+      // No engine installed: seed a template instead of a blank box so the user
+      // can see our one-token-per-line format. Known values (host/port/ctx) are
+      // filled; engine + model stay as <ENGINE>/<MODEL> for the user to replace.
+      defText = [
+        ENGINE_TOKEN,
+        '-m',
+        model,
+        '--host',
+        '127.0.0.1',
+        '--port',
+        String(serverPort),
+        '--ctx-size',
+        String(contextSize),
+      ].join('\n');
     }
     setDefaultCmdText(defText);
     try {
@@ -505,7 +522,9 @@ export const LocalServerMain: React.FC = () => {
       .map((l) => l.trim())
       .filter((l) => l.length > 0);
     try {
-      if (lines.length === 0) {
+      if (lines.length === 0 || lines[0] === ENGINE_TOKEN) {
+        // Empty, or the engine placeholder was never filled in → treat as not
+        // configured so START doesn't light up on a command that can't run.
         await api.clearLlmCustomCommand();
         setHasCustomCmd(false);
       } else {
