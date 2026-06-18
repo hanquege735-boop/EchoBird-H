@@ -50,41 +50,41 @@
     ]
   },
   {
-    "id": "glm-5.1",
-    "name": "GLM 5.1 (MoE)",
+    "id": "glm-5.2",
+    "name": "GLM 5.2 (MoE)",
     "icon": "glm",
     "description": "智谱 GLM 旗舰 MoE — 中文+coding 顶级,thinking mode;multi-shard GGUF,需 256 GB+ 内存",
-    "huggingfaceRepo": "unsloth/GLM-5.1-GGUF",
+    "huggingfaceRepo": "unsloth/GLM-5.2-GGUF",
     "variants": [
       {
         "quantization": "UD-IQ2_M",
         "files": [
-          "UD-IQ2_M/GLM-5.1-UD-IQ2_M-00001-of-00006.gguf",
-          "UD-IQ2_M/GLM-5.1-UD-IQ2_M-00002-of-00006.gguf",
-          "UD-IQ2_M/GLM-5.1-UD-IQ2_M-00003-of-00006.gguf",
-          "UD-IQ2_M/GLM-5.1-UD-IQ2_M-00004-of-00006.gguf",
-          "UD-IQ2_M/GLM-5.1-UD-IQ2_M-00005-of-00006.gguf",
-          "UD-IQ2_M/GLM-5.1-UD-IQ2_M-00006-of-00006.gguf"
+          "UD-IQ2_M/GLM-5.2-UD-IQ2_M-00001-of-00006.gguf",
+          "UD-IQ2_M/GLM-5.2-UD-IQ2_M-00002-of-00006.gguf",
+          "UD-IQ2_M/GLM-5.2-UD-IQ2_M-00003-of-00006.gguf",
+          "UD-IQ2_M/GLM-5.2-UD-IQ2_M-00004-of-00006.gguf",
+          "UD-IQ2_M/GLM-5.2-UD-IQ2_M-00005-of-00006.gguf",
+          "UD-IQ2_M/GLM-5.2-UD-IQ2_M-00006-of-00006.gguf"
         ],
-        "fileSize": 236185450176,
+        "fileSize": 238577580768,
         "recommendedVRAM": "256 GB"
       },
       {
         "quantization": "UD-Q4_K_M",
         "files": [
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00001-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00002-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00003-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00004-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00005-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00006-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00007-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00008-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00009-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00010-of-00011.gguf",
-          "UD-Q4_K_M/GLM-5.1-UD-Q4_K_M-00011-of-00011.gguf"
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00001-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00002-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00003-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00004-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00005-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00006-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00007-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00008-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00009-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00010-of-00011.gguf",
+          "UD-Q4_K_M/GLM-5.2-UD-Q4_K_M-00011-of-00011.gguf"
         ],
-        "fileSize": 464504318304,
+        "fileSize": 465825525088,
         "recommendedVRAM": "480 GB"
       }
     ],
@@ -631,6 +631,15 @@
         ],
         "fileSize": 4830147104,
         "recommendedVRAM": "6 GB"
+      },
+      {
+        "quantization": "Q3_K_M",
+        "fileName": "gemma4-coding-Q3_K_M.gguf",
+        "files": [
+          "gemma4-coding-Q3_K_M.gguf"
+        ],
+        "fileSize": 6087086624,
+        "recommendedVRAM": "8 GB"
       },
       {
         "quantization": "Q4_K_M",
