@@ -94,6 +94,7 @@ const zhHans: Partial<Translations> = {
   'model.name': '名称',
   'model.apiKey': 'API 密钥',
   'model.modelId': '模型 ID',
+  'model.modelIdPlaceholder': '搜索或输入模型 ID…',
   'model.openaiUrl': 'OpenAI 地址',
   'model.anthropicUrl': 'Anthropic 地址',
   'model.editConfig': '编辑模型配置',

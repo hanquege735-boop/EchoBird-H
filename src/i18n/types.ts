@@ -112,6 +112,7 @@ export type TKey =
   | 'model.name'
   | 'model.apiKey'
   | 'model.modelId'
+  | 'model.modelIdPlaceholder'
   | 'model.openaiUrl'
   | 'model.anthropicUrl'
   | 'model.editConfig'
