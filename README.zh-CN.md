@@ -29,6 +29,17 @@
 
 ---
 
+## 💜 赞助商
+
+<p align="center">
+  <a href="https://www.volcengine.com/activity/ai618?utm_campaign=hw&utm_content=hw&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=EchoBird1">
+    <img src="public/icons/sponsors/volcengine.svg" alt="火山引擎 Volcengine" height="44" />
+  </a>
+</p>
+<p align="center"><sub>EchoBird 由 <a href="https://www.volcengine.com/activity/ai618?utm_campaign=hw&utm_content=hw&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=EchoBird1"><strong>火山引擎</strong></a> 赞助 —— 首充 9.9 元。</sub></p>
+
+---
+
 ## 这是什么
 
 很多朋友让我帮他们安装 **Claude Code**、**OpenClaw**、**Hermes Agent**……不但每个人的系统都不一样,甚至有些人还抠门到不愿花钱买大模型,安装和解释起来都特别费劲。于是我开发了这个叫「EchoBird」的 Agent —— 灵感来自《赛博朋克 2077》里那位聪慧过人、总能帮主角搞定一切技术难题的天才女助理 **Songbird**…

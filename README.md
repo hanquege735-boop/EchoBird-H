@@ -31,6 +31,17 @@
 
 ---
 
+## 💜 Sponsor
+
+<p align="center">
+  <a href="https://www.volcengine.com/activity/ai618?utm_campaign=hw&utm_content=hw&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=EchoBird1">
+    <img src="public/icons/sponsors/volcengine.svg" alt="火山引擎 Volcengine" height="44" />
+  </a>
+</p>
+<p align="center"><sub>EchoBird is sponsored by <a href="https://www.volcengine.com/activity/ai618?utm_campaign=hw&utm_content=hw&utm_medium=devrel_tool_web&utm_source=OWO&utm_term=EchoBird1"><strong>火山引擎 Volcengine</strong></a> — ¥9.9 for your first top-up.</sub></p>
+
+---
+
 ## What is EchoBird?
 
 Friends kept asking me to install **Claude Code**, **OpenClaw**, **Hermes Agent**… every machine was different, and some refused to pay for an LLM. Setup and explanations took forever. So I built **EchoBird** — an Agent inspired by **Songbird**, the genius netrunner from *Cyberpunk 2077* who solves any tech problem for V…
